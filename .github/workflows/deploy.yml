@@ -1,0 +1,26 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "docker-compose.yaml"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Deploy Distinguished-Bingus to Hostinger VPS
+        uses: hostinger/deploy-on-vps@v2
+        with:
+          api-key: ${{ secrets.HOSTINGER_API_TOKEN }}
+          virtual-machine: ${{ vars.HOSTINGER_VM_ID }}
+          project-name: Distinguished-Bingus
+          docker-compose-path: docker-compose.yaml
+          # Add a model provider key here later if you want it injected at deploy:
+          # environment-variables: |
+          #   ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}

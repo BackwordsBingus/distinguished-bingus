@@ -7,8 +7,10 @@ services:
     ports:
       # Bound to the VPS's Tailscale IP only — not reachable from the public internet.
       # (Tailnet node hermes-distinguished-bingus = 100.87.219.33)
-      - "100.87.219.33:8642:8642"   # gateway API (OpenAI-compatible; not enabled by default)
-      - "100.87.219.33:9119:9119"   # web dashboard
+      - "100.87.219.33:8642:8642"   # default/nous profile — gateway API (OpenAI-compatible)
+      - "100.87.219.33:8643:8643"   # openai profile  — gateway API (OpenAI-codex OAuth)
+      - "100.87.219.33:8644:8644"   # grok profile    — gateway API (xAI Grok OAuth)
+      - "100.87.219.33:9119:9119"   # web dashboard (default profile)
     volumes:
       - hermes-data:/opt/data
     environment:

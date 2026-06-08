@@ -19,7 +19,7 @@ jobs:
         with:
           api-key: ${{ secrets.HOSTINGER_API_TOKEN }}
           virtual-machine: ${{ vars.HOSTINGER_VM_ID }}
-          project-name: Distinguished-Bingus
+          project-name: distinguished-bingus
           docker-compose-path: docker-compose.yaml
           # Add a model provider key here later if you want it injected at deploy:
           # environment-variables: |

@@ -5,16 +5,19 @@ services:
     restart: unless-stopped
     command: gateway run
     ports:
-      - "8642:8642"   # gateway API (OpenAI-compatible)
-      - "9119:9119"   # web dashboard (HERMES_DASHBOARD=1)
+      # Bound to the VPS's Tailscale IP only — not reachable from the public internet.
+      # (Tailnet node hermes-distinguished-bingus = 100.87.219.33)
+      - "100.87.219.33:8642:8642"   # gateway API (OpenAI-compatible; not enabled by default)
+      - "100.87.219.33:9119:9119"   # web dashboard
     volumes:
       - hermes-data:/opt/data
     environment:
       - HERMES_DASHBOARD=1
       - HERMES_DASHBOARD_HOST=0.0.0.0
       - HERMES_DASHBOARD_PORT=9119
-      # Model provider key intentionally omitted — set later via the dashboard
-      # or by redeploying with ANTHROPIC_API_KEY / OPENAI_API_KEY.
+      # Secrets are NOT stored here. Dashboard basic-auth (username/password/secret)
+      # and the Nous Portal login live in /opt/data/.env + auth.json on the
+      # persistent hermes-data volume, so redeploys never overwrite them.
     deploy:
       resources:
         limits:
